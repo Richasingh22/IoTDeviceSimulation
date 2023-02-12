@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>IoT Simulation</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="IoT Simulation">
+        <meta http-equiv="refresh" content="5">
+        <link rel="stylesheet" href="/static/css/style.css">
+    </head>
+    <body>
+        <h1>IoT Simulation Environment</h1>
+        <hr>
+        <br><br>
+
+        <h1>Light <img id="lightImage" class="icon" src=""></h1>
+        <div class="light fix-width">
+            <table>
+                <tr>
+                    <td><label id="lightBrightnessLabel">Light Brightness</label></td>
+                    <td><input id="lightBrightness" type="number" class="readonly" class="no-border" readonly></td>
+                </tr>
+            </table>
+        </div>
+
+        <h1>Curtains <img id="curtainsImage" class="icon" src=""></h1>
+        <div class="curtain fix-width">
+            <table>
+                <tr>
+                    <td><label id="curtainsLabel">Curtain Open Percentage</label></td>
+                    <td><input id="curtainsPosition" type="number" class="readonly" class="no-border" readonly></td>
+                </tr>
+            </table>
+        </div>
+
+        <h1>Thermostat <img id="thermostatModeImage" class="icon" src=""></h1>
+        <div class="thermostat fix-width">
+            <table>
+                <tr>
+                    <td><label id="thermostatModeLabel">Mode</label></td>
+                    <td><input id="thermostatMode" type="text" class="no-border" readonly></td>
+                </tr>
+                <tr>
+                    <td><label id="thermostatTemperatureLabel">Temperature</label></td>
+                    <td><input id="thermostatTemperature" class="readonly" type="number" class="no-border" readonly></td>
+                </tr>
+            </table>
+        </div>
+        <script>
+            var lightImage = document.getElementById('lightImage');
+
+            var lightBrightness = {{ devices["lightBrightness"]}};
+            var curtainPosition = {{ devices["curtainPercentage"]}};
+            var thermostatMode = "{{devices["thermostatMode"]}}";
+            var thermostatTemperature = {{ devices["thermostatTemperature"]}};
+
+            var colorGradint = ['#ffffff', '#fffff5', '#ffffeb', '#ffffe1', '#ffffd7', '#ffffcc', '#ffffc2', '#ffffb8', '#ffffad', '#ffffa3', '#ffff98', '#ffff8d', '#ffff82', '#ffff76', '#ffff6a', '#ffff5e', '#ffff4f', '#ffff3f', '#ffff2b', '#ffff00'];
+            if (lightBrightness == 0) {
+                lightImage.src = "static/images/bulboff.png";
+                document.getElementsByClassName('light')[0].style.color = "white";
+                document.getElementsByClassName('light')[0].style.backgroundColor = "#000000";
+            } else {
+                lightImage.src = "static/images/bulbon.png";
+                document.getElementsByClassName('light')[0].style.color = "black";
+                document.getElementsByClassName('light')[0].style.backgroundColor = colorGradint[parseInt(lightBrightness/5)-1];
+            }
+
+            var curtainsImage = document.getElementById('curtainsImage');
+            curtainsImage.src = "static/images/curtains.png";
+
+            var thermostatModeImage = document.getElementById('thermostatModeImage');
+            thermostatModeImage.src = "static/images/thermostat.png";
+
+            document.getElementById("lightBrightness").value = lightBrightness;
+            document.getElementById("curtainsPosition").value = curtainPosition;
+            if (thermostatMode == "cold") {
+                document.getElementById("thermostatMode").value = "cold";
+                document.getElementsByClassName('thermostat')[0].classList.add('cold');
+
+            } else {
+                document.getElementById("thermostatMode").value = "heat";
+                document.getElementsByClassName('thermostat')[0].classList.add('hot');
+            }
+
+            document.getElementById("thermostatTemperature").value = thermostatTemperature;
+
+        </script>
+    </body>
+</html>

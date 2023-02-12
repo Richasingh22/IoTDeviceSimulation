@@ -1,0 +1,107 @@
+<html>
+
+<head>
+    <title>IoT Controller</title>
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+    </rel>
+</head>
+
+<body>
+    <h1 style="margin-top: 0.6em;">IoT Controller</h1>
+    <hr>
+    <div class="overlay" style="display:none">
+        <div class="cv-spinner">
+            <span class="spinner"></span>
+        </div>
+    </div>
+    <br><br><br>
+    <table style="padding: 1em">
+        <tr>
+            <td><label for="username">Username</label></td>
+            <td>
+                <div class="tl">
+                    <input type="input" id="username" />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="room">Room</label></td>
+            <td>
+                <div class="tl">
+                    <input type="input" id="room" />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="lightIntensity">Light Intensity</label></td>
+            <td>
+                <div class="tl">
+                    <span style="min-width: 40px;" id="rangeLightIntensitySlideValue">0%</span>
+                    <input class="range" type="range" id="lightIntensity" min="0" max="100"
+                        onmousemove="rangeLightIntensitySlide(this.value)" />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="curtainRange">Curtain Percentage</label></td>
+            <td>
+                <div class="tl">
+                    <span style="min-width: 40px;" id="rangeCurtainValue">0%</span>
+                    <input class="range" type="range" id="curtainPercentage" min="0" max="100"
+                        onmousemove="rangeCurtainSlide(this.value)" />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="thermostatMode">Thermostat Mode</label>
+            </td>
+            <td>
+                <select name="thermostatMode" style="width: 100%" id="thermostatMode">
+                    {%if deviceData["thermostatMode"] == "cold" %}
+                    <option value="heat">Heat</option>
+                    <option value="cold" selected>Cold</option>
+                    {%else%}
+                    <option value="heat" selected>Heat</option>
+                    <option value="cold">Cold</option>
+                    {%endif%}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="thermostatTemperature">Thermostat Temperature</label>
+            </td>
+            <td>
+                <div class="tl">
+                    <span style="min-width: 40px;" id="rangeThermostatTemperatureValue">0°C</span>
+                    <input class="range" type="range" id="thermostatTemperature" min="0" max="50"
+                        onmousemove="rangeThermostatTemperatureSlide(this.value)" />
+                </div>
+            </td>
+        </tr>
+    </table>
+    <script>
+        var USERNAME = "test";
+        var ROOM = "test";
+        var overLayTime = 4;
+        var lightIntensity = '{{ deviceData["lightBrightness"]}}';
+        var curtainPercentage = '{{ deviceData["curtainPercentage"]}}';
+        var thermostatMode = '{{ deviceData["thermostatMode"] }}';
+        var thermostatTemperature = '{{ deviceData["thermostatTemperature"]}}';
+        if (lightIntensity == 0) {
+            document.getElementById("lightIntensity").checked = false;
+        } else {
+            document.getElementById("lightIntensity").checked = true;
+        }
+
+        document.getElementById("username").value = USERNAME;
+        document.getElementById("room").value = ROOM;
+        document.getElementById("lightIntensity").value = lightIntensity;
+        document.getElementById("curtainPercentage").value = curtainPercentage;
+        document.getElementById("thermostatTemperature").value = thermostatTemperature;
+    </script>
+    <script src="static/js/controller.js"></script>
+</body>
+
+</html>
